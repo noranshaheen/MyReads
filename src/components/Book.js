@@ -3,13 +3,9 @@ import React, { useEffect, useState } from "react";
 function Book({ book, changeSelf }) {
   const [bookImg, setBookImg] = useState("");
   useEffect(() => {
-    if (book.imageLinks.thumbnail) {
-      setBookImg(book.imageLinks.thumbnail);
-    } else {
-      setBookImg("none")
-    }
+    setBookImg(book?.imageLinks?.thumbnail);
   }, [book]);
-
+  //book.imageLinks.thumbnail
 
   return (
     <li>
@@ -17,12 +13,21 @@ function Book({ book, changeSelf }) {
         <div className="book-top">
           <div
             className="book-cover"
-            style={{
-              width: 128,
-              height: 193,
-              backgroundImage: `url(${bookImg})`,
-            }}
+            style={
+              bookImg
+                ? {
+                    width: 128,
+                    height: 193,
+                    backgroundImage: `url(${bookImg})`,
+                  }
+                : {
+                    width: 128,
+                    height: 193,
+                    backgroundColor: "gray",
+                  }
+            }
           ></div>
+
           <div className="book-shelf-changer">
             <select
               defaultValue={book.shelf ? book.shelf : "none"}

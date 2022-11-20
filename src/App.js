@@ -4,12 +4,12 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import MainPage from "./Pages/MainPage";
 import SearchPage from "./Pages/SearchPage";
 import * as BooksAPI from "./BooksAPI";
+import ErrorPage from "./Pages/ErrorPage";
 
 function App() {
   const [allBooks, setAllBooks] = useState([]);
   const [success, setSuccess] = useState(false);
   const [result, setResult] = useState([]);
-
 
   useEffect(() => {
     BooksAPI.getAll().then((res) => {
@@ -79,6 +79,7 @@ function App() {
             />
             <Route
               path="/search"
+              exacts
               element={
                 <SearchPage
                   handleInput={handleInput}
@@ -88,6 +89,7 @@ function App() {
                 />
               }
             />
+            <Route path="*" element={<ErrorPage />} />
           </Routes>
         </div>
       ) : null}
