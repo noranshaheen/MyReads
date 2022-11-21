@@ -10,39 +10,33 @@ function App() {
   const [allBooks, setAllBooks] = useState([]);
   const [success, setSuccess] = useState(false);
   const [result, setResult] = useState([]);
+  const [resltErr, setResultErr] = useState("");
 
   useEffect(() => {
     BooksAPI.getAll().then((res) => {
       setAllBooks(res);
       setSuccess(true);
-      // console.log(res);
     });
   }, []);
 
   function changeSelf(book, targetshelf) {
-    // console.log("changed");
     if (targetshelf === "none") {
       setAllBooks(allBooks.filter((b) => book.id !== b.id));
     } else {
-      const newBooks = allBooks.map((b) => {
-        if (b.id === book.id) {
-          b.shelf = targetshelf;
-          return b;
-        } else {
-          return b;
-        }
+      BooksAPI.update(book, targetshelf).then((data) => {
+        console.log(data);
+        BooksAPI.getAll().then((res) => {
+          setAllBooks(res);
+        });
       });
-      setAllBooks(newBooks);
-      BooksAPI.update(book, targetshelf);
     }
   }
 
   function handleInput(e) {
     const Q = e.target.value;
-
+    setResultErr("");
     if (Q !== null && Q !== "") {
       handleSearch(Q);
-      console.log(Q);
     } else {
       setResult([]);
     }
@@ -63,7 +57,7 @@ function App() {
         );
       })
       .catch((err) => {
-        console.log(err);
+        setResultErr("No Result !");
       });
   }
 
@@ -86,6 +80,7 @@ function App() {
                   result={result}
                   changeSelf={changeSelf}
                   allBooks={allBooks}
+                  resltErr={resltErr}
                 />
               }
             />
