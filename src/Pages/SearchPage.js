@@ -1,12 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Book from "../components/Book";
-// import { useState } from "react";
 
 
-function SearchPage({handleInput ,result,changeSelf}) {
-  console.log("from search page", result);
-
+function SearchPage({ handleInput, result, changeSelf, resltErr }) {
   return (
     <div className="search-books">
       <div className="search-books-bar">
@@ -23,7 +20,7 @@ function SearchPage({handleInput ,result,changeSelf}) {
       </div>
       <div className="search-books-results">
         <ol className="books-grid">
-          {result && result.map((rslt) => {
+          {resltErr? resltErr : result.map((rslt) => {
           return <Book key={rslt.id} book={rslt} changeSelf={changeSelf}/>
         })}
         </ol>
